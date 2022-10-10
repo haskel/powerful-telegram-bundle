@@ -1,0 +1,21 @@
+{
+    "name": "haskel/powerful-telegram-bundle",
+    "type": "symfony-bundle",
+    "description": "Powerful symfony bunle to easily create Telegram bots",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavel Haskel",
+            "email": "haskel.pavel@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "Haskel\\TelegramBundle\\": "src"
+        }
+    }
+}
