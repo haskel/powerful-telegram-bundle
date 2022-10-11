@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Haskel\\TelegramBundle\\": "src"
+            "Haskel\\TelegramBundle\\": ""
         }
     }
 }
