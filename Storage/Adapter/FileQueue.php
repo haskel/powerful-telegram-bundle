@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Haskel\TelegramBundle\Storage\Adapter;
 
+use Haskel\TelegramBundle\Serializer\UpdateDeserializer;
 use Haskel\TelegramBundle\Storage\UpdateQueue;
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
-use Haskel\TelegramBundle\UpdateDeserializer;
+use Haskel\Telegram\Type\Update\Update;
 
 class FileQueue implements UpdateQueue
 {

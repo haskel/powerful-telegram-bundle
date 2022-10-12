@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle\DependencyInjection;
+namespace Haskel\TelegramBundle\DependencyInjection\Compiler;
 
 use Haskel\TelegramBundle\Attribute\Action;
 use Haskel\TelegramBundle\Attribute\BotCommand;

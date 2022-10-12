@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Model;
 
 class Scenario
 {

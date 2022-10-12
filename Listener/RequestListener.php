@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Listener;
 
-use App\Constant\HappyCustomerBot;
+use Haskel\Telegram\Type\Update\Update;
 use Haskel\TelegramBundle\Constant\RequestAttribute;
-use Haskel\TelegramBundle\Controller\BotController;
+use Haskel\TelegramBundle\Routing\BotRouter;
+use Haskel\TelegramBundle\Routing\ScenarioResolver;
+use Haskel\TelegramBundle\Serializer\UpdateDeserializer;
 use Haskel\TelegramBundle\Storage\UpdateQueue;
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class RequestListener
     ) {
     }
 
-    public function __invoke(RequestEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$this->isBotRequest($event->getRequest())) {
             return;

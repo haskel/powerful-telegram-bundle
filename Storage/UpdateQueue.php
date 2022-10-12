@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haskel\TelegramBundle\Storage;
 
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
+use Haskel\Telegram\Type\Update\Update;
 
 interface UpdateQueue
 {

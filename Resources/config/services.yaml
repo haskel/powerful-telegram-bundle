@@ -1,0 +1,86 @@
+services:
+
+#  _defaults:
+#    autowire: true
+#    autoconfigure: true
+#
+#  Haskel\TelegramBundle\:
+#    resource: '../'
+#    exclude:
+#      - '../Attribute/'
+#      - '../Command/'
+#      - '../Constant/'
+#      - '../DependencyInjection/'
+#      - '../Resources/'
+#      - '../Model/'
+
+  Haskel\TelegramBundle\Routing\RouteLoader:
+    tags:
+      - { name: 'routing.loader', priority: 0 }
+
+  Haskel\TelegramBundle\Serializer\UpdateDeserializer: ~
+
+  Haskel\TelegramBundle\Routing\BotRouter:
+    bind:
+      $cacheFile: '%kernel.cache_dir%/haskel_bot.php'
+      $logger: '@logger'
+
+  Haskel\TelegramBundle\Routing\ScenarioResolver: ~
+
+  Haskel\TelegramBundle\Storage\Adapter\FileQueue:
+    arguments:
+      - '%kernel.cache_dir%/queue.jsonl'
+      - '@Haskel\TelegramBundle\Serializer\UpdateDeserializer'
+
+  Haskel\TelegramBundle\Storage\UpdateQueue: '@Haskel\TelegramBundle\Storage\Adapter\FileQueue'
+
+  Haskel\TelegramBundle\Listener\RequestListener:
+    tags:
+      - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest', priority: -256 }
+    arguments:
+        - '@Haskel\TelegramBundle\Serializer\UpdateDeserializer'
+        - '@Haskel\TelegramBundle\Routing\BotRouter'
+        - '@Haskel\TelegramBundle\Routing\ScenarioResolver'
+        - '@logger'
+        - '@Haskel\TelegramBundle\Storage\UpdateQueue'
+
+#  Haskel\Telegram\Api\BotApi: ~
+#  Haskel\Telegram\Api\ChatManagementApi: ~
+#  Haskel\Telegram\Api\GameApi: ~
+#  Haskel\Telegram\Api\InlineApi: ~
+#  Haskel\Telegram\Api\PassportApi: ~
+#  Haskel\Telegram\Api\PaymentApi: ~
+#  Haskel\Telegram\Api\StickerApi: ~
+#  Haskel\Telegram\Api\TelegramRequestCaller: ~
+#  Haskel\Telegram\Api\MessageApi:
+#    arguments:
+#      - '@Haskel\Telegram\Api\TelegramRequestCaller'
+#
+#  Haskel\Telegram\Api\TelegramApi:
+#    bind:
+#      $botName: '%env(TELEGRAM_BOT_NAME)%'
+#      $token: '%env(TELEGRAM_BOT_TOKEN)%'
+#      $botApi: '@Haskel\Telegram\Api\BotApi'
+#      $chatManagementApi: '@Haskel\Telegram\Api\ChatManagementApi'
+#      $messageApi: '@Haskel\Telegram\Api\MessageApi'
+#      $stickerApi: '@Haskel\Telegram\Api\StickerApi'
+#      $gameApi: '@Haskel\Telegram\Api\GameApi'
+#      $inlineApi: '@Haskel\Telegram\Api\InlineApi'
+#      $paymentApi: '@Haskel\Telegram\Api\PaymentApi'
+#      $passportApi: '@Haskel\Telegram\Api\PassportApi'
+
+  Haskel\TelegramBundle\ArgumentResolver:
+    tags:
+      - { name: 'controller.argument_value_resolver', priority: 0 }
+
+  Haskel\TelegramBundle\Listener\ViewListener:
+    tags:
+      - { name: 'kernel.event_listener', event: 'kernel.view', method: 'onKernelView', priority: 0 }
+    arguments:
+      - '@Haskel\TelegramBundle\TelegramApiPool'
+
+  Haskel\TelegramBundle\Listener\ExceptionListener:
+    tags:
+      - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'onKernelException', priority: 0 }
+    arguments:
+      - '@logger'

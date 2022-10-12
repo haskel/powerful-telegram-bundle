@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Routing;
 
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
+use Haskel\Telegram\Type\Update\Update;
+use Haskel\TelegramBundle\Model\Scenario;
 
 class ScenarioResolver
 {

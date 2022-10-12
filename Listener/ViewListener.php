@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Listener;
 
+use Generator;
+use Haskel\Telegram\Type\ChatAction;
 use Haskel\TelegramBundle\Constant\RequestAttribute;
-use Haskel\TelegramBundle\Telegram\Api\TelegramApi;
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
+use Haskel\Telegram\Api\TelegramApi;
+use Haskel\Telegram\Type\Update\Update;
+use Haskel\TelegramBundle\TelegramApiPool;
+use Haskel\TelegramBundle\UpdatedMessage;
 use Stringable;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,14 +21,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ViewListener
 {
     public function __construct(
-        private TelegramApi $telegram,
+        private TelegramApiPool $telegramApiPool,
     ) {
     }
 
-    public function __invoke(ViewEvent $event): void
+    public function onKernelView(ViewEvent $event): void
     {
         /** @var Update $update */
         $update = $event->getRequest()->attributes->get(RequestAttribute::UPDATE);
+        $botName = $event->getRequest()->attributes->get(RequestAttribute::BOT_NAME);
 
         if (!$update) {
             return;
@@ -32,22 +37,46 @@ class ViewListener
 
         $result = $event->getControllerResult();
 
+        if ($result instanceof Generator) {
+            foreach ($result as $item) {
+                $this->processResponse($item, $botName, $update, $event);
+            }
+        } else {
+            $this->processResponse($result, $botName, $update, $event);
+        }
+
+        $event->setResponse(new JsonResponse());
+    }
+
+    private function processResponse($result, string $botName, Update $update, ViewEvent $event): void
+    {
+        $api = $this->telegramApiPool->get($botName);
+        if (!$api) {
+            return;
+        }
+
         match (true) {
+            $result instanceof ChatAction
+                => $api->message->sendChatAction(
+                    $update->message?->chat?->id,
+                    $result
+                ),
+
             is_scalar($result) || $result instanceof Stringable
-                => $this->telegram->message->sendMessage(
+                => $api->message->sendMessage(
                     (string)$update->message->chat->id,
                     (string)$result
-            ),
+                ),
+
             is_object($result) && UpdatedMessage::class === $result::class
-                => $this->telegram->message->editMessageText(
+                => $api->message->editMessageText(
                     $result->chatId,
                     $result->messageId,
                     $result->text,
-            ),
+                ),
+
             default
                 => $event->setResponse($event->getControllerResult()),
         };
-
-        $event->setResponse(new JsonResponse());
     }
 }

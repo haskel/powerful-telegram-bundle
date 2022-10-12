@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Listener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -16,7 +16,7 @@ class ExceptionListener
     public function __construct(private LoggerInterface $logger) {
     }
 
-    public function __invoke(ExceptionEvent $event): void
+    public function onKernelException(ExceptionEvent $event): void
     {
         $this->logger->error('logged exception', ['exception' => $event->getThrowable()]);
 

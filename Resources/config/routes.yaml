@@ -1,0 +1,3 @@
+bot_routes:
+    resource: .
+    type: powerful_telegram

@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Serializer;
 
-use Haskel\TelegramBundle\Telegram\Type\Update\CallbackQueryUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\ChannelPostUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\ChatJoinRequestUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\ChatMemberUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\ChosenInlineResultUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\EditedChannelPostUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\EditedMessageUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\InlineQueryUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\MessageUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\MyChatMemberUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\PollAnswerUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\PollUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\PreCheckoutQueryUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\ShippingQueryUpdate;
-use Haskel\TelegramBundle\Telegram\Type\Update\Update;
+use Haskel\Telegram\Type\Update\CallbackQueryUpdate;
+use Haskel\Telegram\Type\Update\ChannelPostUpdate;
+use Haskel\Telegram\Type\Update\ChatJoinRequestUpdate;
+use Haskel\Telegram\Type\Update\ChatMemberUpdate;
+use Haskel\Telegram\Type\Update\ChosenInlineResultUpdate;
+use Haskel\Telegram\Type\Update\EditedChannelPostUpdate;
+use Haskel\Telegram\Type\Update\EditedMessageUpdate;
+use Haskel\Telegram\Type\Update\InlineQueryUpdate;
+use Haskel\Telegram\Type\Update\MessageUpdate;
+use Haskel\Telegram\Type\Update\MyChatMemberUpdate;
+use Haskel\Telegram\Type\Update\PollAnswerUpdate;
+use Haskel\Telegram\Type\Update\PollUpdate;
+use Haskel\Telegram\Type\Update\PreCheckoutQueryUpdate;
+use Haskel\Telegram\Type\Update\ShippingQueryUpdate;
+use Haskel\Telegram\Type\Update\Update;
 
 class UpdateDeserializer
 {

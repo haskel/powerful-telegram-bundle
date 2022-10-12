@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Haskel\TelegramBundle;
+namespace Haskel\TelegramBundle\Routing;
 
 use Symfony\Bundle\FrameworkBundle\Routing\RouteLoaderInterface;
 use Symfony\Component\Config\Loader\Loader;
@@ -20,10 +20,10 @@ class RouteLoader extends Loader
         $routes = new RouteCollection();
 
         $routes->add(
-            'webhook',
+            'powerful_telegram_webhook',
             new Route(
                 '/webhook/{telegram_bot_name}',
-                ['_controller' => 'App\Controller\BotController::webhook',]
+                ['_controller' => 'Haskel\TelegramBundle\Controller\WebhookController::webhook',]
             )
         );
 
@@ -32,6 +32,7 @@ class RouteLoader extends Loader
 
     public function supports($resource, string $type = null): bool
     {
-        return 'haskelbot' === $type;
+        return true;
+//        return 'powerful_telegram' === $type;
     }
 }
