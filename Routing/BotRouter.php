@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Haskel\TelegramBundle\Routing;
 
+use Haskel\Telegram\Type\Update\InlineQueryUpdate;
 use Haskel\TelegramBundle\Attribute\FallbackAction;
 use Haskel\TelegramBundle\Attribute\FallbackBotCommand;
 use Haskel\Telegram\Type\Update\Update;
+use Haskel\TelegramBundle\Attribute\InlineQuery;
 use Haskel\TelegramBundle\Model\Scenario;
 use Psr\Log\LoggerInterface;
 
@@ -22,7 +24,11 @@ class BotRouter
     {
         $command = $update->hasSingleCommand() ? $update->getCommand() : null;
 
-        $scenarioAction = $scenario->getAction() ?? FallbackAction::NAME;
+        if ($update instanceof InlineQueryUpdate) {
+            $scenarioAction = InlineQuery::NAME;
+        } else {
+            $scenarioAction = $scenario->getAction($update) ?? FallbackAction::NAME;
+        }
 
         if ($command) {
             $cleanedCommand = str_replace('/', '', $command);

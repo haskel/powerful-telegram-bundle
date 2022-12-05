@@ -10,6 +10,7 @@ class Action
     public function __construct(
         public ?string $name = null,
         public ?string $scenario = null,
+        public ?ActionResponseType $respond = null,
     ) {
     }
 }

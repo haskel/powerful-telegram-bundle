@@ -57,10 +57,12 @@ class PowerfulTelegramExtension extends Extension
                 $definition->addTag('bot.telegram', $tagAttributes);
                 $definition->addTag('controller.service_arguments');
 
-                foreach ($reflector->getConstructor()?->getParameters() as $parameter) {
-                    if ($parameter->getType()?->getName() === TelegramApi::class) {
-                        $apiDefinition = $container->getDefinition('haskel.telegram.api.' . $attribute->name);
-                        $definition->setArgument("$" . $parameter->getName(), $apiDefinition);
+                if ($reflector->getConstructor()?->getParameters()) {
+                    foreach ($reflector->getConstructor()?->getParameters() as $parameter) {
+                        if ($parameter->getType()?->getName() === TelegramApi::class) {
+                            $apiDefinition = $container->getDefinition('haskel.telegram.api.' . $attribute->name);
+                            $definition->setArgument("$" . $parameter->getName(), $apiDefinition);
+                        }
                     }
                 }
             }

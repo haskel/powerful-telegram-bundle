@@ -18,7 +18,7 @@ class FileQueue implements UpdateQueue
 
     public function push(string $update): void
     {
-        file_put_contents($this->path, $update . PHP_EOL, FILE_APPEND);
+        file_put_contents($this->path, str_replace("\\n", '', $update) . PHP_EOL, FILE_APPEND);
     }
 
     public function pop(): ?string

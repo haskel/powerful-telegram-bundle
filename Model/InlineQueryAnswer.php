@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Haskel\TelegramBundle\Model;
 
-class UpdatedMessage
+class InlineQueryAnswer
 {
     public function __construct(
-        public string $chatId,
-        public int $messageId,
-        public ?string $text = null,
+        public string $inlineQueryId,
+        public array $results,
     ) {
     }
 }

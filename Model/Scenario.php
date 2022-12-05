@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haskel\TelegramBundle\Model;
 
+use Haskel\Telegram\Type\Update\Update;
+
 class Scenario
 {
     public function __construct(
@@ -11,8 +13,21 @@ class Scenario
     ) {
     }
 
-    public function getAction(): string
+    public function getAction(Update $update): string
     {
+//        $currentStep = $this->stepLoader->getCurrentStep(
+//            $this->botName,
+//            $this->getChat($update),
+//            $this->getUser($update),
+//        );
+//
+//        $availableTransitions = [];
+//        foreach ($currentStep->allowedTransitions() as $transition) {
+//            if ($transition->isFit($this->update)) {
+//                $availableTransitions[] = $transition;
+//            }
+//        }
+
         return '@fallback_action';
     }
 
